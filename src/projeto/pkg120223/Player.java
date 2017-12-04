@@ -48,7 +48,7 @@ public class Player implements GLEventListener{
         
         gl.glPushMatrix();
           gl.glScaled(1, 0.25, 0.25);
-            gl.glColor3f(0, 0, 1);
+            gl.glColor3f(0, 0.5f, 1.5f);
             glut.glutSolidCube(1);
         gl.glPopMatrix();        
     }

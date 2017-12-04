@@ -43,6 +43,7 @@ public class Projeto120223 implements GLEventListener, KeyListener{
     private double posBossY = 3.8;
     private int lvl = 1;
     private int points = 0;
+    private int vidas = 3;
     private int bossHit = 0;
     private boolean lvlUp = true;
     //Informacoes sobre a luz
@@ -86,7 +87,7 @@ public class Projeto120223 implements GLEventListener, KeyListener{
     @Override
     public void init(GLAutoDrawable glAuto) {
         gl = glAuto.getGL().getGL2();
-        gl.glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
+        gl.glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
         ultimoTiro = System.currentTimeMillis();
         createEnemies(lvl);
         Animator a = new Animator(glAuto);
@@ -137,6 +138,7 @@ public class Projeto120223 implements GLEventListener, KeyListener{
                 break;
             case Gameplay:
                 desenhaTexto(points + " pontos", 10, 10, 0.4f, Color.DARK_GRAY);
+                desenhaTexto(vidas + " vidas", 410, 10, 0.4f, Color.DARK_GRAY);
                 Game(glAuto);
                 break;
             case GameOver:
@@ -225,13 +227,14 @@ public class Projeto120223 implements GLEventListener, KeyListener{
         for (Enemy e : enemies) {
             e.setPosEnemyY(e.getPosEnemyY()+posEnemyY);
             e.display(glAuto);
+            if(e.getPosEnemyY()<=-3.35) gameView = GameView.GameOver;
         }
         posEnemyY-=0.000005;
         //
         //Tiro
         if(tiro){
             long tempoAtual = System.currentTimeMillis();
-            if(tempoAtual > ultimoTiro+500){
+            if(tempoAtual > ultimoTiro+300){
                 ultimoTiro = tempoAtual;
                 createTiro(posPlayer);
             }
@@ -270,6 +273,7 @@ public class Projeto120223 implements GLEventListener, KeyListener{
             }
             posBossY-=0.001;
             verificaColisaoTiroBoss();
+            verificaColisaoPlayerBoss();
         }
     }
     
@@ -299,6 +303,7 @@ public class Projeto120223 implements GLEventListener, KeyListener{
         posEnemyY = 0.0;
         posBossY = 3.8;
         lvl = 1;
+        vidas = 3;
         points = 0;
         bossHit = 0;
         lvlUp = true;
@@ -357,6 +362,22 @@ public class Projeto120223 implements GLEventListener, KeyListener{
         for(Enemy e : enemies){
             if((e.getPosEnemyX()>=(player.getPosPlayer()-0.5) && e.getPosEnemyX()<=(player.getPosPlayer()+0.5))&&(e.getPosEnemyY()<=-3.25)){
                 enemies.remove(e);
+                vidas--;
+                if (vidas==0) {
+                    gameView = GameView.GameOver;
+                }
+            }
+        }
+    }
+    
+    private void verificaColisaoPlayerBoss(){
+        for(Boss e : bosses){
+            if((e.getPosBossX()>=(player.getPosPlayer()-0.5) && e.getPosBossX()<=(player.getPosPlayer()+0.5))&&(e.getPosBossY()<=-3.25)){
+                enemies.remove(e);
+                vidas-=3;
+                if (vidas==0) {
+                    gameView = GameView.GameOver;
+                }
             }
         }
     }
