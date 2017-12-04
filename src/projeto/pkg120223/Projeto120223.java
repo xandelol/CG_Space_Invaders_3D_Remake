@@ -92,30 +92,17 @@ public class Projeto120223 implements GLEventListener, KeyListener{
         createEnemies(lvl);
         Animator a = new Animator(glAuto);
         a.start();
-        // Define a refletancia do material 
         gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, especularidade, 0);
-
-        // Define a concentração do brilho
         gl.glMateriali(GL.GL_FRONT_AND_BACK, GL2.GL_SHININESS, especMaterial);
         gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, especularidade, 0);
-
-        // Ativa o uso da luz ambiente 
         gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, luzAmbiente, 0);
-
-        // Define os parâmetros da luz de número 0
         gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_AMBIENT, luzAmbiente, 0);
         gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, luzDifusa, 0);
         gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_SPECULAR, luzEspecular, 0);
         gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, posicaoLuz, 0);
-
-        // Habilita a defini��o da cor do material a partir da cor corrente
         gl.glEnable(GL2.GL_COLOR_MATERIAL);
-
-        //Habilita o uso de iluminação
         gl.glEnable(GL2.GL_LIGHTING);
-        // Habilita a luz de n�mero 0
         gl.glEnable(GL2.GL_LIGHT1);
-        // Habilita o depth-buffering
         gl.glEnable(GL.GL_DEPTH_TEST);
         
         gameView = GameView.Start;
@@ -130,22 +117,22 @@ public class Projeto120223 implements GLEventListener, KeyListener{
                    GL.GL_DEPTH_BUFFER_BIT);
         switch(gameView){
             case Start:
-                desenhaTexto("Space Invaders 3d Remake", 20, 380, 0.6f, Color.BLACK);
-                desenhaTexto("Aperte P para iniciar", 160, 280, 0.4f, Color.DARK_GRAY);
-                desenhaTexto("COMANDOS:", 50, 180, 0.5f, Color.RED);
-                desenhaTexto("Use as setas para controlar a posição", 60, 155, 0.4f, Color.RED);
-                desenhaTexto("Aperte ESPAÇO para atirar", 120, 125, 0.4f, Color.RED);
+                drawText("Space Invaders 3d Remake", 20, 380, 0.6f, Color.BLACK);
+                drawText("Aperte P para iniciar", 160, 280, 0.4f, Color.DARK_GRAY);
+                drawText("COMANDOS:", 50, 180, 0.5f, Color.RED);
+                drawText("Use as setas para controlar a posição", 60, 155, 0.4f, Color.RED);
+                drawText("Aperte ESPAÇO para atirar", 120, 125, 0.4f, Color.RED);
                 break;
             case Gameplay:
-                desenhaTexto(points + " pontos", 10, 10, 0.4f, Color.DARK_GRAY);
-                desenhaTexto(vidas + " vidas", 410, 10, 0.4f, Color.DARK_GRAY);
+                drawText(points + " pontos", 10, 10, 0.4f, Color.DARK_GRAY);
+                drawText(vidas + " vidas", 410, 10, 0.4f, Color.DARK_GRAY);
                 Game(glAuto);
                 break;
             case GameOver:
-                desenhaTexto("PONTUAÇÃO:", 60, 350, 0.4f, Color.BLACK);
-                desenhaTexto(points + " pontos", 60, 300, 0.8f, Color.DARK_GRAY);
-                desenhaTexto("FIM DE JOGO", 60, 200, 1, Color.RED);
-                desenhaTexto("Aperte P para continuar", 120, 170, 0.4f, Color.DARK_GRAY);
+                drawText("PONTUAÇÃO:", 60, 350, 0.4f, Color.BLACK);
+                drawText(points + " pontos", 60, 300, 0.8f, Color.DARK_GRAY);
+                drawText("FIM DE JOGO", 60, 200, 1, Color.RED);
+                drawText("Aperte P para continuar", 120, 170, 0.4f, Color.DARK_GRAY);
                 break;
         }           
     }
@@ -277,12 +264,11 @@ public class Projeto120223 implements GLEventListener, KeyListener{
         }
     }
     
-    private void desenhaTexto(String text, int x, int y, float fontscale, Color fontcolor)
+    private void drawText(String text, int x, int y, float fontscale, Color fontcolor)
     {
             textRenderer.beginRendering(500, 500);
             textRenderer.setColor(fontcolor);
             textRenderer.setSmoothing(true);
-
             textRenderer.draw3D(text, (float)x, (float)y, (float)0, (float)fontscale);
             textRenderer.endRendering(); 
             textRenderer.flush();
