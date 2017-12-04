@@ -2,10 +2,12 @@ package projeto.pkg120223;
 
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.gl2.GLUT;
+import java.awt.List;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.EventListener;
 import javafx.animation.Animation;
 import javax.media.opengl.GL;
@@ -22,12 +24,14 @@ public class Projeto120223 implements GLEventListener, KeyListener{
     GLUT glut = new GLUT();
     Player player = new Player();
     Enemy enemy = new Enemy();
+    ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private boolean esquerdo = false;
     private boolean direito = false;
     private boolean reiniciar = false;
     private boolean tiro;
     private double posPlayer = 0.0;
-    private double posEnemyX = 0.0;
+    private double posEnemyY = 0.0;
+    private int lvl = 1;
     float luzDifusa[]   ={1f,0f,0f,1.0f};
     float matDifusa1[]  ={0f,0f,1f,0.0f};
     float matDifusa2[]  ={1.0f,1f,0f,0.0f};
@@ -62,6 +66,7 @@ public class Projeto120223 implements GLEventListener, KeyListener{
 
     @Override
     public void init(GLAutoDrawable glAuto) {
+        createEnemies(2, glAuto);
         Animator a = new Animator(glAuto);
         a.start();
     }
@@ -80,10 +85,11 @@ public class Projeto120223 implements GLEventListener, KeyListener{
         if(direito&&(posPlayer<3.5))posPlayer+=0.03;
         
         //Inimigos
-        enemy.setPosEnemyX(posEnemyX);
-        enemy.display(glAuto);
-        if(posEnemyX>-3.8) posEnemyX-=0.02;
-//        if(posEnemyX<3.5) posEnemyX+=0.2;
+        for (Enemy e : enemies) {
+            e.setPosEnemyY(e.getPosEnemyY()+posEnemyY);
+            e.display(glAuto);
+        }
+        posEnemyY-=0.000005;
     }
 
     @Override
@@ -144,5 +150,18 @@ public class Projeto120223 implements GLEventListener, KeyListener{
 
         if(evt.getKeyCode() == KeyEvent.VK_R)
             reiniciar = false;
+    }
+    
+    private void createEnemies(int level, GLAutoDrawable glAuto){
+        double incX = 0.95;
+        double incY = 0.95;
+        for (int i = 0; i < level; i++) {
+            for (int j = 0; j < 8; j++) {
+                Enemy e = new Enemy();
+                e.setPosEnemyY(3.5-(incY*i));
+                e.setPosEnemyX(-3.4+(incX*j));
+                enemies.add(e);
+            }
+        }
     }
 }

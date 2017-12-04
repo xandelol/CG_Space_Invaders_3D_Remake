@@ -24,6 +24,8 @@ public class Enemy implements GLEventListener{
     private double posEnemyX = 0.0;
     private double posEnemyY = 0.0;
     private double rot = 0.0;
+    private int incEnemyX = 1;
+    private int incEnemyY = 1;
     float luzDifusa[]   ={1f,0f,0f,1.0f};
     float matDifusa1[]  ={0f,0f,1f,0.0f};
     float matDifusa2[]  ={1.0f,1f,0f,0.0f};
@@ -44,7 +46,7 @@ public class Enemy implements GLEventListener{
         GL2 gl = glAuto.getGL().getGL2();
         
         gl.glLoadIdentity();
-        gl.glTranslated(posEnemyX, 3.5, -7);
+        gl.glTranslated(posEnemyX, posEnemyY, -7);
         gl.glRotated(rot, 0, 1, 0);
         
         gl.glPushMatrix(); 
@@ -75,4 +77,22 @@ public class Enemy implements GLEventListener{
     public void setPosEnemyY(double posEnemyY) {
         this.posEnemyY = posEnemyY;
     }
+
+    public int getIncEnemyX() {
+        return incEnemyX;
+    }
+
+    public void setIncEnemyX(int incEnemyX) {
+        this.incEnemyX = incEnemyX;
+    }
+
+    public int getIncEnemyY() {
+        return incEnemyY;
+    }
+
+    public void setIncEnemyY(int incEnemyY) {
+        this.incEnemyY = incEnemyY;
+    }
+    
+    
 }
