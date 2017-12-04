@@ -7,7 +7,6 @@ package projeto.pkg120223;
 
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.gl2.GLUT;
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
@@ -15,13 +14,14 @@ import javax.media.opengl.glu.GLU;
 
 /**
  *
- * @author aacds
+ * @author Xandão
  */
-public class Player implements GLEventListener{
-    
+public class Tiro implements GLEventListener{
     GLU glu = new GLU();
     GLUT glut = new GLUT();
-    private double posPlayer = 0.0;    
+    private double posTiroX = 0.0;
+    private double posTiroY = -3.5;
+    private double rot = 0.0;
     float luzDifusa[]   ={1f,0f,0f,1.0f};
     float matDifusa1[]  ={0f,0f,1f,0.0f};
     float matDifusa2[]  ={1.0f,1f,0f,0.0f};
@@ -33,7 +33,7 @@ public class Player implements GLEventListener{
     }
 
     @Override
-    public void dispose(GLAutoDrawable glad) {
+    public void dispose(GLAutoDrawable glAuto) {
         
     }
 
@@ -43,26 +43,38 @@ public class Player implements GLEventListener{
        
         //Player
         gl.glLoadIdentity();
-        gl.glTranslated(posPlayer, -3.5, -7);
-        gl.glRotated(0, 0, 1, 0);
+        gl.glTranslated(posTiroX, posTiroY, -7);
+        gl.glRotated(rot, 0, 1, 0);
         
         gl.glPushMatrix();
-          gl.glScaled(1, 0.25, 0.25);
-            gl.glColor3f(0, 0, 1);
-            glut.glutSolidCube(1);
-        gl.glPopMatrix();        
+          gl.glScaled(1, 1, 1);
+            gl.glColor3f(0, 1, 1);
+            glut.glutWireSphere(0.10f,10,10);
+        gl.glPopMatrix();
+        rot+=0.5;
+        posTiroY += 0.01;
     }
 
     @Override
-    public void reshape(GLAutoDrawable glad, int i, int i1, int i2, int i3) {
+    public void reshape(GLAutoDrawable glAuto, int i, int i1, int i2, int i3) {
         
     }
 
-    public double getPosPlayer() {
-        return posPlayer;
+    public double getPosTiroX() {
+        return posTiroX;
     }
 
-    public void setPosPlayer(double posPlayer) {
-        this.posPlayer = posPlayer;
+    public void setPosTiroX(double posTiroX) {
+        this.posTiroX = posTiroX;
     }
+
+    public double getPosTiroY() {
+        return posTiroY;
+    }
+
+    public void setPosTiroY(double posTiroY) {
+        this.posTiroY = posTiroY;
+    }
+    
+    
 }
